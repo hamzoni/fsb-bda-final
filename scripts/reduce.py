@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 import sys
-import time
-import datetime
 import dateutil.parser
+import simplejson
 
 storage = {}
 
-f = open('result.txt', 'w')
+f = open('result.json', 'w')
 
 
 def compare_timestamp(ts_x: str, ts_y: str, is_larger: bool):
@@ -37,6 +36,8 @@ for line in sys.stdin:
     humidity = columns[2]
     temperature = columns[3]
 
+    device_name = device_name.replace('\"', '')
+
     if device_name not in storage or not storage[device_name]:
         storage[device_name] = {
             'last_received_at': received_at,
@@ -61,9 +62,9 @@ for line in sys.stdin:
         )
 
         storage[device_name]['humidity']['highest'] = compare_number(
-            storage[device_name]['humidity']['lowest'], humidity, True
+            storage[device_name]['humidity']['highest'], humidity, True
         )
-        storage[device_name]['humidity']['highest'] = compare_number(
+        storage[device_name]['humidity']['lowest'] = compare_number(
             storage[device_name]['humidity']['lowest'], humidity, False
         )
         storage[device_name]['humidity']['average'] = calculate_average(
@@ -71,16 +72,29 @@ for line in sys.stdin:
         )
 
         storage[device_name]['temperature']['highest'] = compare_number(
-            storage[device_name]['temperature']['lowest'], temperature, True
+            storage[device_name]['temperature']['highest'], temperature, True
         )
-        storage[device_name]['temperature']['highest'] = compare_number(
+        storage[device_name]['temperature']['lowest'] = compare_number(
             storage[device_name]['temperature']['lowest'], temperature, False
         )
         storage[device_name]['temperature']['average'] = calculate_average(
             storage[device_name]['temperature']['average'], float(temperature)
         )
 
-for attr, value in storage.items():
-    print(attr, value)
+for device_name, value in storage.items():
+    print(
+        device_name,
+        value['last_received_at'],
+        value['first_received_at'],
+        value['temperature']['highest'],
+        value['temperature']['lowest'],
+        value['temperature']['average'],
+        value['humidity']['highest'],
+        value['humidity']['lowest'],
+        value['humidity']['average'],
+    )
+
+store_data = simplejson.dumps(storage, indent=4, sort_keys=True)
+f.write(store_data)
 
 f.close()

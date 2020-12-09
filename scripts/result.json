@@ -1,0 +1,44 @@
+{
+    "iot-device-01": {
+        "first_received_at": "2020-11-26T16:54:22.088+0000",
+        "humidity": {
+            "average": 74.5,
+            "highest": 74.7,
+            "lowest": 73.4
+        },
+        "last_received_at": "2020-11-26T16:59:59.670+0000",
+        "temperature": {
+            "average": 66.02,
+            "highest": 66.38,
+            "lowest": 60.44
+        }
+    },
+    "iot-device-02": {
+        "first_received_at": "2020-11-26T16:54:21.768+0000",
+        "humidity": {
+            "average": 60.78,
+            "highest": 61.3,
+            "lowest": 53.4
+        },
+        "last_received_at": "2020-11-26T16:59:58.804+0000",
+        "temperature": {
+            "average": 78.81,
+            "highest": 80.78,
+            "lowest": 78.44
+        }
+    },
+    "iot-device-03": {
+        "first_received_at": "2020-11-26T16:54:22.400+0000",
+        "humidity": {
+            "average": 51.42,
+            "highest": 52.0,
+            "lowest": 48.4
+        },
+        "last_received_at": "2020-11-26T16:59:59.385+0000",
+        "temperature": {
+            "average": 71.43,
+            "highest": 72.32,
+            "lowest": 70.88
+        }
+    }
+}

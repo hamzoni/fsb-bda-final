@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import sys
-from decimal import Decimal
 
 
 def parse_float(value: str):

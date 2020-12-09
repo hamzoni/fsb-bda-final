@@ -3,8 +3,8 @@ import json
 
 import boto3
 
-
 # python send_messages.py -t iot-device-data -f raw_data_small.json
+# python send_messages.py -t iot-device-data -f raw_data_xlarge.json
 
 boto3.setup_default_session(profile_name='officity')
 

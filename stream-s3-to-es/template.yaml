@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  stream-s3-to-es
+  Sample SAM Template for stream-s3-to-es
+
+Parameters:
+  EsHost: 
+    Type: String
+    Default: search-auto-sync-7qwbp6vhu3qkygb5jml3y5apke.us-east-1.es.amazonaws.com
+  EsRegion:
+    Type: String
+    Default: us-east-1
+  S3SourceBucket:
+    Type: String
+    Default: iot-analytics-fsb-datasetoutputbucket-13qgee5qpd786
+
+Globals:
+  Function:
+    Runtime: python3.7
+    Timeout: 180
+    Handler: index.handler
+    Environment:
+      Variables:
+        ES_REGION: !Ref EsRegion
+        ES_HOST: !Ref EsHost
+
+Resources:
+  StreamDataFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/
+      Events:
+        S3PostEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref S3SourceBucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                - Name: postfix
+                  Value: .csv
+
+Outputs:
+  StreamDataFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt StreamDataFunction.Arn

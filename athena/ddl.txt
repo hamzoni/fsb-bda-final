@@ -1,0 +1,21 @@
+CREATE EXTERNAL TABLE `fsb_bda`(
+  `device_name` string,
+  `last_received_at` string,
+  `first_received_at` string,
+  `temperature_highest` float,
+  `temperature_lowest` float,
+  `temperature_average` float,
+  `humidity_highest` float,
+  `humidity_lowest` float,
+  `humidity_average` float)
+ROW FORMAT DELIMITED
+  FIELDS TERMINATED BY ','
+STORED AS INPUTFORMAT
+  'org.apache.hadoop.mapred.TextInputFormat'
+OUTPUTFORMAT
+  'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+LOCATION
+  's3://fsb-bigdata-output/results4'
+TBLPROPERTIES (
+  'has_encrypted_data'='false',
+  'transient_lastDdlTime'='1606664974')
